@@ -4078,164 +4078,30 @@ class Quebecoin(AuxPowMixin, Coin):
     RPC_PORT = 10890
 
 
-class Beyondcoin(Coin):
-    NAME = "Beyondcoin"
-    SHORTNAME = "BYND"
+
+class Dimecoin(Coin):
+    NAME = "Dimecoin"
+    SHORTNAME = "DIME"
     NET = "mainnet"
-    XPUB_VERBYTES = bytes.fromhex("ff88b21e")
-    XPRV_VERBYTES = bytes.fromhex("ff88ade4")
-    P2PKH_VERBYTE = bytes.fromhex("19")
-    P2SH_VERBYTES = [bytes.fromhex("1a"), bytes.fromhex("05")]
-    WIF_BYTE = bytes.fromhex("b0")
-    GENESIS_HASH = ('0a9e3b5fce3aee6e04f06dfd6ad380a6'
-                    'c0f9d8420f53a4ca97845756ee5d56e7')
-    DESERIALIZER = lib_tx.DeserializerSegWit
-    TX_COUNT = 287000
-    TX_COUNT_HEIGHT = 133700
-    TX_PER_BLOCK = 2
-    RPC_PORT = 10332
-    REORG_LIMIT = 5000
-
-
-class Syscoin(AuxPowMixin, Coin):
-    NAME = "Syscoin"
-    SHORTNAME = "SYS"
-    NET = "mainnet"
-    P2PKH_VERBYTE = bytes.fromhex("3f")
-    P2SH_VERBYTES = (bytes.fromhex("05"),)
-    WIF_BYTE = bytes.fromhex("80")
-    GENESIS_HASH = ('0000022642db0346b6e01c2a397471f4'
-                    'f12e65d4f4251ec96c1f85367a61a7ab')
-    DESERIALIZER = lib_tx.DeserializerAuxPowSegWit
-    TX_COUNT = 911232
-    TX_COUNT_HEIGHT = 954572
-    TX_PER_BLOCK = 1
-    RPC_PORT = 8370
-    REORG_LIMIT = 2000
-    CHUNK_SIZE = 360
-
-
-class Lbry(Coin):
-    NAME = "Lbry"
-    SHORTNAME = "LBC"
-    NET = "mainnet"
-    XPUB_VERBYTES = bytes.fromhex("019C354f")
-    XPRV_VERBYTES = bytes.fromhex("019C3118")
-    P2PKH_VERBYTE = bytes.fromhex("55")
-    P2SH_VERBYTES = (bytes.fromhex("7a"),)
-    WIF_BYTE = bytes.fromhex("1c")
-    GENESIS_HASH = ('9c89283ba0f3227f6c03b70216b9f665'
-                    'f0118d5e0fa729cedf4fb34d6a34f463')
-    DESERIALIZER = lib_tx.DeserializerSegWit
-    BASIC_HEADER_SIZE = 112
-    TX_COUNT = 50792939
-    TX_COUNT_HEIGHT = 1178612
-    TX_PER_BLOCK = 43
-    RPC_PORT = 9245
-    REORG_LIMIT = 5000
-
-
-class Bitweb(Coin):
-    NAME = "Bitweb"
-    SHORTNAME = "BTE"
-    NET = "mainnet"
-    XPUB_VERBYTES = bytes.fromhex("0488b21e")
-    XPRV_VERBYTES = bytes.fromhex("0488ade4")
-    P2PKH_VERBYTE = bytes.fromhex("21")
-    P2SH_VERBYTES = (bytes.fromhex("1E"),)
-    WIF_BYTE = bytes.fromhex("80")
-    GENESIS_HASH = ('00043e9c6bc54d9bd266c3767a83a7b9'
-                    'da435dd7f84e485a2bf2a869be62f1f3')
-    DESERIALIZER = lib_tx.DeserializerSegWit
-    TX_COUNT = 31788
-    TX_COUNT_HEIGHT = 29511
-    TX_PER_BLOCK = 2
-    RPC_PORT = 1605
+    P2PKH_VERBYTE = bytes.fromhex("0F")
+    P2SH_VERBYTES = [bytes.fromhex("09")]
+    WIF_BYTE = bytes.fromhex("8F")
+    XPUB_VERBYTES = bytes.fromhex("0488B21E")
+    XPRV_VERBYTES = bytes.fromhex("0488ADE4")
+    GENESIS_HASH = '00000d5a9113f87575c77eb5442845ff8a0014f6e79e2dd2317d88946ef910da'
+    DAEMON = daemon.LegacyRPCDaemon
+    TX_COUNT = 4291581
+    TX_COUNT_HEIGHT = 3300000
+    TX_PER_BLOCK = 0.75
+    RPC_PORT = 11930
+    ESTIMATE_FEE = 0.001
+    RELAY_FEE = 0.01
+    REORG_LIMIT = 100
+    PEERS = []
+    VALUE_PER_COIN = 100000
 
     @classmethod
     def header_hash(cls, header):
-        '''Given a header return the hash.'''
-        import bitweb_yespower
-        return bitweb_yespower.getPoWHash(header)
+        import quark_hash
+        return quark_hash.getPoWHash(header)
 
-
-class Garlicoin(Coin):
-    NAME = "Garlicoin"
-    SHORTNAME = "GRLC"
-    NET = "mainnet"
-    XPUB_VERBYTES = bytes.fromhex("0488b21e")
-    XPRV_VERBYTES = bytes.fromhex("0488ade4")
-    P2PKH_VERBYTE = bytes.fromhex("26")
-    P2SH_VERBYTES = [bytes.fromhex("32"), bytes.fromhex("05")]
-    WIF_BYTE = bytes.fromhex("b0")
-    GENESIS_HASH = ('2ada80bf415a89358d697569c96eb98c'
-                    'dbf4c3b8878ac5722c01284492e27228')
-    DESERIALIZER = lib_tx.DeserializerSegWit
-    TX_COUNT = 1031869
-    TX_COUNT_HEIGHT = 2343659
-    TX_PER_BLOCK = 2
-    RPC_PORT = 42068
-    REORG_LIMIT = 800
-    PEERS = [
-        'us.node.garlico.in s',
-        'ca.node.garlico.in s t',
-        'sg.node.garlico.in s',
-        'de.node.garlico.in s',
-        'fr.garlium.crapules.org s',
-        'uk.garlium.crapules.org s',
-        'pl.garlium.crapules.org s',
-        'ca.garlium.crapules.org s',
-        'au.garlium.crapules.org s',
-        'electrum.hotgrlc.com s t',
-        'electrum.maxpuig.com s t'
-    ]
-
-
-class Ferrite(Coin):
-    NAME = "Ferrite"
-    SHORTNAME = "FEC"
-    NET = "mainnet"
-    XPUB_VERBYTES = bytes.fromhex("0488b21e")
-    XPRV_VERBYTES = bytes.fromhex("0488ade4")
-    P2PKH_VERBYTE = bytes.fromhex("24")
-    P2SH_VERBYTES = (bytes.fromhex("23"), bytes.fromhex("05"))
-    WIF_BYTE = bytes.fromhex("a3")
-    GENESIS_HASH = ('46ca17415c18e43f5292034ebf9bbd10'
-                    'de80a61fc6dc17180e6609f33d3b48f3')
-    DESERIALIZER = lib_tx.DeserializerSegWit
-    TX_COUNT = 164010
-    TX_COUNT_HEIGHT = 150251
-    TX_PER_BLOCK = 2
-    RPC_PORT = 9573
-    REORG_LIMIT = 800
-    ESTIMATE_FEE = 0.00001
-    RELAY_FEE = 0.00001
-    PEERS = [
-        'enode1.ferritecoin.org s t',
-        'enode2.ferritecoin.org s t',
-        'enode3.ferritecoin.org s t',
-    ]
-
-
-class FerriteTestnet(Ferrite):
-    SHORTNAME = "TFE"
-    NET = "testnet"
-    XPUB_VERBYTES = bytes.fromhex("043587cf")
-    XPRV_VERBYTES = bytes.fromhex("04358394")
-    P2PKH_VERBYTE = bytes.fromhex("6f")
-    P2SH_VERBYTES = (bytes.fromhex("23"), bytes.fromhex("c4"))
-    WIF_BYTE = bytes.fromhex("ef")
-    GENESIS_HASH = ('7a9f43d6e86eefa66e2b79918b2235c9'
-                    '362106f3d9f11f37f7a33450ceae73c1')
-    TX_COUNT = 12445
-    TX_COUNT_HEIGHT = 6290
-    TX_PER_BLOCK = 2
-    RPC_PORT = 19573
-    REORG_LIMIT = 4000
-    ESTIMATE_FEE = 0.00001
-    RELAY_FEE = 0.00001
-    PEERS = [
-        'enode1.ferritecoin.org s t',
-        'enode2.ferritecoin.org s t',
-        'enode3.ferritecoin.org s t',
-    ]
