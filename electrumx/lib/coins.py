@@ -3911,3 +3911,32 @@ class Quebecoin(AuxPowMixin, Coin):
     TX_PER_BLOCK = 20
     REORG_LIMIT = 2000
     RPC_PORT = 10890
+
+
+
+class Dimecoin(Coin):
+    NAME = "Dimecoin"
+    SHORTNAME = "DIME"
+    NET = "mainnet"
+    P2PKH_VERBYTE = bytes.fromhex("0F")
+    P2SH_VERBYTES = [bytes.fromhex("09")]
+    WIF_BYTE = bytes.fromhex("8F")
+    XPUB_VERBYTES = bytes.fromhex("0488B21E")
+    XPRV_VERBYTES = bytes.fromhex("0488ADE4")
+    GENESIS_HASH = '00000d5a9113f87575c77eb5442845ff8a0014f6e79e2dd2317d88946ef910da'
+    DAEMON = daemon.LegacyRPCDaemon
+    TX_COUNT = 4291581
+    TX_COUNT_HEIGHT = 3300000
+    TX_PER_BLOCK = 0.75
+    RPC_PORT = 11930
+    ESTIMATE_FEE = 0.001
+    RELAY_FEE = 0.01
+    REORG_LIMIT = 100
+    PEERS = []
+    VALUE_PER_COIN = 100000
+
+    @classmethod
+    def header_hash(cls, header):
+        import quark_hash
+        return quark_hash.getPoWHash(header)
+
