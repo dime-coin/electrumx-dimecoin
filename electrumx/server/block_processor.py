@@ -22,14 +22,8 @@ from electrumx.lib.script import is_unspendable_legacy, is_unspendable_genesis
 from electrumx.lib.util import (
     chunks, class_logger, pack_le_uint32, pack_le_uint64, unpack_le_uint64, OldTaskGroup
 )
-from electrumx.lib.tx import Tx
-from electrumx.server.db import FlushData, COMP_TXID_LEN, DB
-from electrumx.server.history import TXNUM_LEN
-
-if TYPE_CHECKING:
-    from electrumx.lib.coins import Coin
-    from electrumx.server.env import Env
-    from electrumx.server.controller import Notifications
+from electrumx.server.db import FlushData
+from electrumx.server.utxo_fetcher import *
 
 
 class Prefetcher:
@@ -618,6 +612,9 @@ class BlockProcessor:
         all UTXOs so not finding one indicates a logic error or DB
         corruption.
         '''
+
+        COMP_TXID_LEN = 4
+
         # Fast track is it being in the cache
         idx_packed = pack_le_uint32(tx_idx)
         cache_value = self.utxo_cache.pop(tx_hash + idx_packed, None)
@@ -653,8 +650,8 @@ class BlockProcessor:
                 self.db_deletes.append(udb_key)
                 return hashX + tx_num_packed + utxo_value_packed
 
-        raise ChainError(f'UTXO {hash_to_hex_str(tx_hash)} / {tx_idx:,d} not '
-                         f'found in "h" table')
+        value_of_spend = get_raw_utxo_value(hash_to_hex_str(tx_hash), tx_idx)
+        return b'h' + tx_hash[:COMP_TXID_LEN] + pack_le_uint32(tx_idx) + pack_le_uint64(value_of_spend)
 
     async def _process_prefetched_blocks(self):
         '''Loop forever processing blocks as they arrive.'''
