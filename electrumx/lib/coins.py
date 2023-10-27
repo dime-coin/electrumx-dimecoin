@@ -3937,6 +3937,10 @@ class Dimecoin(Coin):
 
     @classmethod
     def header_hash(cls, header):
-        import quark_hash
-        return quark_hash.getPoWHash(header)
+        try:
+           import quark_hash
+           return quark_hash.getPoWHash(header)
+        except:
+           import pivx_quark_hash
+           return pivx_quark_hash.getPoWHash(header)
 
