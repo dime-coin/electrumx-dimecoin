@@ -4089,7 +4089,7 @@ class Dimecoin(Coin):
     XPUB_VERBYTES = bytes.fromhex("0488B21E")
     XPRV_VERBYTES = bytes.fromhex("0488ADE4")
     GENESIS_HASH = '00000d5a9113f87575c77eb5442845ff8a0014f6e79e2dd2317d88946ef910da'
-    DAEMON = daemon.LegacyRPCDaemon
+    DESERIALIZER = lib_tx.DeserializerDimecoin
     TX_COUNT = 4291581
     TX_COUNT_HEIGHT = 3300000
     TX_PER_BLOCK = 0.75
