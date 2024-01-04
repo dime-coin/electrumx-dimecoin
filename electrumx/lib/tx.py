@@ -26,7 +26,7 @@
 # and warranty status of this software.
 
 '''Transaction-related classes and functions.'''
-
+from collections import namedtuple
 from dataclasses import dataclass
 from hashlib import blake2s
 from typing import Sequence
@@ -815,8 +815,7 @@ class DeserializerTrezarcoin(Deserializer):
         # TrezarFlips
         return blake2s_hash.digest()
 
-class TxDimecoin(
-        namedtuple("Tx", "version inputs outputs locktime txcomment")):
+class TxDimecoin(namedtuple("Tx", "version inputs outputs locktime txcomment")):
     '''Class representing transaction that has a txcomment field.'''
 
 
