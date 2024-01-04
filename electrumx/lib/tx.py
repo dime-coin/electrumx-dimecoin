@@ -815,6 +815,24 @@ class DeserializerTrezarcoin(Deserializer):
         # TrezarFlips
         return blake2s_hash.digest()
 
+class TxDimecoin(
+        namedtuple("Tx", "version inputs outputs locktime txcomment")):
+    '''Class representing transaction that has a txcomment field.'''
+
+
+class DeserializerDimecoin(Deserializer):
+
+    def read_tx(self):
+        version = self._read_le_int32()
+        inputs = self._read_inputs()
+        outputs = self._read_outputs()
+        locktime = self._read_le_uint32()
+        if version >= 2:
+            txcomment = self._read_varbytes()
+        else:
+            txcomment = b''
+        return TxDimecoin(version, inputs, outputs, locktime, txcomment)
+
 
 class DeserializerBlackcoin(Deserializer):
     BLACKCOIN_TX_VERSION = 2
